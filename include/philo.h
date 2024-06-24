@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:41:51 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/21 18:42:36 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:57:00 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
+#include <sys/time.h>
 
 typedef struct s_philo_pack
 {
-	long long int		start_time;
+	long				start_time;
 	int					count_philo;
 	int					time_to_die;
 	int					time_to_eat;
@@ -32,11 +33,15 @@ typedef struct s_philo
 {
 	pthread_t		thread_ref;
 	int				id;
-	int 			start_time_last_eat;
+	long 			start_time_last_eat;
 	int				is_eating;
 	int				is_sleeping;
 	int				is_dead;
 	int 			count_meals;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 } t_philo;
+
+void	ft_orchestrate(t_philo *philosopher);
 
 #endif
