@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:41:51 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/24 17:57:00 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/24 23:30:33 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_philo_pack
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					max_eat_philo_must_eat;
+	pthread_mutex_t		*writing_stdout;
 	t_philo 			*philos;
 } t_philo_pack;
 
