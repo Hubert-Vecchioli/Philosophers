@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 10:39:55 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/24 23:44:34 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:58:20 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	ft_atoi(char *str)
 	return (sign * res);
 }
 
-void	ft_parse(int ac, char **av, t_philo_pack *philo_pack)
+void	ft_init_pack(int ac, char **av, t_philo_pack *philo_pack)
 {
 	int	i;
 	
@@ -62,6 +62,9 @@ void	ft_parse(int ac, char **av, t_philo_pack *philo_pack)
 		philo_pack->max_eat_philo_must_eat = ft_atoi(av[1]);
 	}
 	philo_pack->start_time = 0;
+	philo_pack->is_ended = 0;
 	if(pthread_mutex_init(philo_pack->writing_stdout, NULL));
 		ft_error('x');
+	if(pthread_mutex_init(philo_pack->end, NULL));
+		return (ft_free(philo_pack), ft_error('x'), 0);
 }

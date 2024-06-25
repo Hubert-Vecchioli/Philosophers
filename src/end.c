@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:58:50 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/24 16:05:15 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:09:28 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_error(char err)
 		ft_putstr_fd("Error: Malloc failed\n", 2);
 	if (err == 'x')
 		ft_putstr_fd("Error: Mutex failed\n", 2);
+	if (err == 't')
+		ft_putstr_fd("Error: pThread failed\n", 2);
 	exit(0);
 }
 void	ft_free(t_philo_pack *philo_pack)

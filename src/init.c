@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:24:30 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/24 23:44:25 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:47:40 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int ft_philo_thread(t_philo_pack *philo_pack)
 {
 	int	i;
+	pthread_t	end_control;
 	
 	i = 0;
 	gettimeofday(&philo_pack->start_time, NULL);
@@ -23,8 +24,12 @@ int ft_philo_thread(t_philo_pack *philo_pack)
 	while (i < philo_pack->count_philo)
 	{
 		if(!pthread_create(philo_pack->philos[i].thread_ref, NULL, &ft_orchestrate, &philo_pack->philos[i]));
-			return (ft_error('m'), 0);
+			return (ft_free(philo_pack), ft_error('t'), 0);
 	}
+	if(!pthread_create(&end_control, NULL, &ft_end_control, &philo_pack->philos[i]));
+		return (ft_free(philo_pack), ft_error('t'), 0);
+	// pthread_join(end_control, NULL); TO REVIEZ IF NEEDED
+	return (1);
 }
 
 int ft_init_philos(t_philo_pack *philo_pack)
@@ -37,6 +42,7 @@ int ft_init_philos(t_philo_pack *philo_pack)
 		return (ft_error('m'), 0);
 	while (i < philo_pack->count_philo)
 	{
+		philo_pack->philos[i].philo_pack = philo_pack;
 		philo_pack->philos[i].id = i + 1;
 		philo_pack->philos[i].start_time_last_eat = 0;
 		philo_pack->philos[i].is_eating = 0;
