@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:24:30 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/25 14:47:40 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/25 17:51:37 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int ft_init_philos(t_philo_pack *philo_pack)
 	{
 		philo_pack->philos[i].philo_pack = philo_pack;
 		philo_pack->philos[i].id = i + 1;
-		philo_pack->philos[i].start_time_last_eat = 0;
+		memset(&philo_pack->philos[i].start_time_last_eat, 0, sizeof(struct timeval));
 		philo_pack->philos[i].is_eating = 0;
 		philo_pack->philos[i].is_sleeping = 0;
 		philo_pack->philos[i].is_dead = 0;
