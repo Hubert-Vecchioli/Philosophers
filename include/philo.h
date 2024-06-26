@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:41:51 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/26 17:24:32 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:18:55 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ typedef struct s_philo			t_philo;
 
 typedef struct s_philo_pack
 {
-	struct timeval		start_time;
+	long				start_time;
 	int					count_philo;
 	long				time_to_die;
 	long				time_to_eat;
 	long				time_to_sleep;
 	int					max_eat_philo_must_eat;
 	int					is_ended;
-	pthread_mutex_t		*writing_stdout;
-	pthread_mutex_t		*end;
+	pthread_mutex_t		writing_stdout;
+	pthread_mutex_t		end;
 	t_philo 			*philos;
 } t_philo_pack;
 
@@ -42,14 +42,14 @@ typedef struct s_philo
 	pthread_t			thread_ref;
 	t_philo_pack		*philo_pack;
 	int					id;
-	struct timeval 		start_time_last_eat;
+	long 				start_time_last_eat;
 	// int				is_eating;
 	// int				is_sleeping;
 	// int				is_dead;
 	int 				count_meals;
-	pthread_mutex_t		*started_eating;
-	pthread_mutex_t		*left_fork;
-	pthread_mutex_t		*right_fork;
+	pthread_mutex_t		started_eating;
+	pthread_mutex_t		left_fork;
+	pthread_mutex_t		right_fork;
 } t_philo;
 
 void	*ft_orchestrate(void *philosopher);
@@ -67,6 +67,11 @@ int		ft_print(t_philo *philosopher, char message);
 int		ft_usleep(t_philo *philosopher, long target_time_length);
 long	ft_compute_time_to_think(t_philo *philosopher);
 long	ft_compute_time_to_think_odd(int id, int count_meals, t_philo *philosopher);
-long	ft_get_time_diff(struct timeval start);
+long	ft_get_time_diff(long start);
+long	ft_get_time(void);
+
+void	ft_putnbr_fd(int n, int fd);
+void	ft_putstr_fd(char *s, int fd);
+
 
 #endif

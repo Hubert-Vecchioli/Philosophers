@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:41:33 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/26 16:27:38 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:35:35 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int ac, char **av)
 		return (ft_error('i'), 0);
 	ft_init_pack(ac, av, &philo_pack);
 	ft_init_philos(&philo_pack);
-	ft_init_threads(&philo_pack); 
+	ft_init_threads(&philo_pack);
+	write(1,"J",1);
 	return (ft_free(&philo_pack), 0);
 }
