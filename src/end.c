@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:58:50 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/25 14:09:28 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/26 00:59:04 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,12 @@ void	ft_error(char err)
 }
 void	ft_free(t_philo_pack *philo_pack)
 {
+	int	i;
 	// free les philos
+	pthread_mutex_destroy(philo_pack->writing_stdout);
+	i = 0;
+	while (i < philo_pack->count_philo)
+	{
+		
+	}
 }

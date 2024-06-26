@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:41:51 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/25 17:55:05 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/26 00:58:14 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_philo_pack
 	int					max_eat_philo_must_eat;
 	int					is_ended;
 	pthread_mutex_t		*writing_stdout;
-	pthread_mutex_t		*end;
+	// pthread_mutex_t		*end;
 	t_philo 			*philos;
 } t_philo_pack;
 
