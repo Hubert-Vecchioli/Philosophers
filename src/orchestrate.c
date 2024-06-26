@@ -6,32 +6,30 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 10:40:10 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/25 19:30:15 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:51:18 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_delayed_start(t_philo *philosopher)
-{
-	if (!philosopher->philo_pack->is_ended)
-	{
-		//
-	}
-	else
-		return (0);
-	if (philosopher->philo_pack->count_philo == 1)
-		ft_think(philosopher);
-}
-
 int	ft_eat(t_philo *philosopher)
 {
 	if (!philosopher->philo_pack->is_ended)
+	{
+		pthread_mutex_lock(&philosopher->left_fork);
+		ft_print(philosopher, 'l');
+		pthread_mutex_lock(&philosopher->right_fork);
+		ft_print(philosopher, 'r');
 		ft_print(philosopher, 'e');
+		gettimeofday(&philosopher->start_time_last_eat, NULL);
+	}
 	else
 		return (0);
 	if(ft_usleep(philosopher, philosopher->philo_pack->time_to_eat))
 		return (0);
+	pthread_mutex_unlock(&philosopher->right_fork);
+	pthread_mutex_unlock(&philosopher->left_fork);
+	philosopher->count_meals++;
 	return (1);
 }
 
@@ -57,7 +55,7 @@ int	ft_think(t_philo *philosopher)
 		ft_print(philosopher, 't');
 	else
 		return (0);	
-	// time_to_think = ft_compute_time_to_think(philosopher);
+	time_to_think = ft_compute_time_to_think(philosopher);
 	if (ft_usleep(philosopher, time_to_think));
 		return (0);	
 	return (1);
@@ -94,7 +92,7 @@ void	ft_end_control(t_philo_pack *philo_pack)
 				philo_pack->philos[i].is_dead = 1;
 				ft_print(&philo_pack->philos[i], 'd');
 				// trigger stop
-				// return (0);
+				return (0);
 			}
 			if (philo_pack->philos[i].count_meals >= philo_pack->count_philo)
 				j++;
@@ -102,25 +100,9 @@ void	ft_end_control(t_philo_pack *philo_pack)
 		if (j == philo_pack->count_philo)
 		{
 			philo_pack->is_ended = 1;
-			// print all eaten?
 			// trigger stop
-			// return (0);
+			return (0);
 		}	
 	}
-	// return (1);
-}
-
-void	ft_print(t_philo *philosopher, char message)
-{
-	pthread_mutex_lock(&philosopher->philo_pack->writing_stdout);
-	// check if alive
-	if (message == 'd')
-	// print dead
-	else if (message == 'e')
-	// print eat
-	else if (message == 's')
-	// print sleep
-	else if (message == 't')
-	// print think
-	pthread_mutex_unlock(&philosopher->philo_pack->writing_stdout);
+	return (1);
 }

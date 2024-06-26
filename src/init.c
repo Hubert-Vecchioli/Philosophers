@@ -6,13 +6,13 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:24:30 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/25 17:51:37 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:13:04 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int ft_philo_thread(t_philo_pack *philo_pack)
+int ft_init_threads(t_philo_pack *philo_pack)
 {
 	int	i;
 	pthread_t	end_control;
@@ -45,8 +45,8 @@ int ft_init_philos(t_philo_pack *philo_pack)
 		philo_pack->philos[i].philo_pack = philo_pack;
 		philo_pack->philos[i].id = i + 1;
 		memset(&philo_pack->philos[i].start_time_last_eat, 0, sizeof(struct timeval));
-		philo_pack->philos[i].is_eating = 0;
-		philo_pack->philos[i].is_sleeping = 0;
+		// philo_pack->philos[i].is_eating = 0;
+		// philo_pack->philos[i].is_sleeping = 0;
 		philo_pack->philos[i].is_dead = 0;
 		philo_pack->philos[i].count_meals = 0;
 		if(pthread_mutex_init(philo_pack->philos[i].left_fork, NULL));
@@ -57,6 +57,5 @@ int ft_init_philos(t_philo_pack *philo_pack)
 			philo_pack->philos[i].right_fork == philo_pack->philos[0].left_fork;
 		i++;
 	}
-	ft_philo_thread(philo_pack); 
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:58:50 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/26 00:59:04 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:50:46 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ft_free(t_philo_pack *philo_pack)
 	i = 0;
 	while (i < philo_pack->count_philo)
 	{
-		
+		pthread_mutex_destroy(philo_pack->writing_stdout);
+		pthread_mutex_destroy(philo_pack->philos[i].left_fork);
+		free(&philo_pack->philos[i]);
 	}
 }
