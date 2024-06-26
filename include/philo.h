@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:41:51 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/26 12:50:41 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:24:32 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
+# include <string.h>
 # include <sys/time.h>
 
 typedef struct s_philo_pack		t_philo_pack;
@@ -31,25 +33,40 @@ typedef struct s_philo_pack
 	int					max_eat_philo_must_eat;
 	int					is_ended;
 	pthread_mutex_t		*writing_stdout;
-	// pthread_mutex_t		*end;
+	pthread_mutex_t		*end;
 	t_philo 			*philos;
 } t_philo_pack;
 
 typedef struct s_philo
 {
-	pthread_t		thread_ref;
-	t_philo_pack	*philo_pack;
-	int				id;
-	struct timeval 	start_time_last_eat;
+	pthread_t			thread_ref;
+	t_philo_pack		*philo_pack;
+	int					id;
+	struct timeval 		start_time_last_eat;
 	// int				is_eating;
 	// int				is_sleeping;
-	int				is_dead; //really needed?
-	int 			count_meals;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
+	// int				is_dead;
+	int 				count_meals;
+	pthread_mutex_t		*started_eating;
+	pthread_mutex_t		*left_fork;
+	pthread_mutex_t		*right_fork;
 } t_philo;
 
-void	ft_orchestrate(t_philo *philosopher);
-void	ft_end_control(t_philo_pack *philo_pack);
+void	*ft_orchestrate(void *philosopher);
+void	*ft_end_control(void *philo_p);
+void	ft_error(char err);
+void	ft_free(t_philo_pack *philo_pack);
+void	ft_init_pack(int ac, char **av, t_philo_pack *philo_pack);
+void	ft_delayed_start(t_philo *philosopher);
+int		ft_init_threads(t_philo_pack *philo_pack);
+int		ft_init_philos(t_philo_pack *philo_pack);
+int		ft_eat(t_philo *philosopher);
+int		ft_sleep(t_philo *philosopher);
+int		ft_think(t_philo *philosopher);
+int		ft_print(t_philo *philosopher, char message);
+int		ft_usleep(t_philo *philosopher, long target_time_length);
+long	ft_compute_time_to_think(t_philo *philosopher);
+long	ft_compute_time_to_think_odd(int id, int count_meals, t_philo *philosopher);
+long	ft_get_time_diff(struct timeval start);
 
 #endif

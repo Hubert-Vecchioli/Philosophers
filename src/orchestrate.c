@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 10:40:10 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/26 12:51:18 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:26:33 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,30 @@
 
 int	ft_eat(t_philo *philosopher)
 {
-	if (!philosopher->philo_pack->is_ended)
-	{
-		pthread_mutex_lock(&philosopher->left_fork);
-		ft_print(philosopher, 'l');
-		pthread_mutex_lock(&philosopher->right_fork);
-		ft_print(philosopher, 'r');
-		ft_print(philosopher, 'e');
-		gettimeofday(&philosopher->start_time_last_eat, NULL);
-	}
-	else
+	if (philosopher->philo_pack->is_ended)
 		return (0);
-	if(ft_usleep(philosopher, philosopher->philo_pack->time_to_eat))
+	pthread_mutex_lock(philosopher->left_fork);
+	if (ft_print(philosopher, 'l'))
 		return (0);
-	pthread_mutex_unlock(&philosopher->right_fork);
-	pthread_mutex_unlock(&philosopher->left_fork);
+	pthread_mutex_lock(philosopher->right_fork);
+	if (ft_print(philosopher, 'r') || ft_print(philosopher, 'e'))
+		return (0);
+	pthread_mutex_lock(philosopher->started_eating);
+	gettimeofday(&philosopher->start_time_last_eat, NULL);	
+	pthread_mutex_unlock(philosopher->started_eating);	
+	if(!ft_usleep(philosopher, philosopher->philo_pack->time_to_eat))
+		return (0);
 	philosopher->count_meals++;
+	pthread_mutex_unlock(philosopher->right_fork);
+	pthread_mutex_unlock(philosopher->left_fork);
 	return (1);
 }
 
 int	ft_sleep(t_philo *philosopher)
 {
-	if (!philosopher->philo_pack->is_ended)
-		ft_print(philosopher, 's');
-	else
-		return (0);	
-	if (ft_usleep(philosopher, philosopher->philo_pack->time_to_sleep))
+	if (ft_print(philosopher, 's'))
+		return (0);
+	if (!ft_usleep(philosopher, philosopher->philo_pack->time_to_sleep))
 		return (0);	
 	return (1);
 }
@@ -47,22 +45,18 @@ int	ft_sleep(t_philo *philosopher)
 
 int	ft_think(t_philo *philosopher)
 {
-	long time_to_think;
-	
-	if (philosopher->philo_pack->count_philo == 1)
-		ft_sleep(philosopher->philo_pack->time_to_die);
-	if (!philosopher->philo_pack->is_ended)
-		ft_print(philosopher, 't');
-	else
-		return (0);	
-	time_to_think = ft_compute_time_to_think(philosopher);
-	if (ft_usleep(philosopher, time_to_think));
+	if (ft_print(philosopher, 't'))
+		return (0);
+	if (ft_usleep(philosopher, ft_compute_time_to_think(philosopher)))
 		return (0);	
 	return (1);
 }
 
-void	ft_orchestrate(t_philo *philosopher)
+void	*ft_orchestrate(void *philosopher)
 {
+	t_philo	*philo;
+
+	philo = (t_philo *)philosopher;
 	ft_delayed_start(philosopher);
 	while (1)
 	{
@@ -73,36 +67,43 @@ void	ft_orchestrate(t_philo *philosopher)
 		if (ft_think(philosopher))
 			return (NULL);
 	}
+	return (NULL);
 }
 
-void	ft_end_control(t_philo_pack *philo_pack)
+void	*ft_end_control(void *philo_p)
 {
 	int	i;
 	int	j;
+	t_philo_pack	*philo_pack;
 
+	philo_pack = (t_philo_pack *)philo_p;
 	while (!philo_pack->is_ended)
 	{
 		i = 0;
 		j = 0;
 		while (i < philo_pack->count_philo)
 		{
-			if(philo_pack->time_to_die <= ft_get_time_diff_to_now(philo_pack->philos[i].start_time_last_eat))
+			pthread_mutex_lock(philo_pack->philos[i].started_eating);
+			if(philo_pack->time_to_die >= ft_get_time_diff(philo_pack->philos[i].start_time_last_eat))
 			{
+				pthread_mutex_unlock(philo_pack->philos[i].started_eating);
+				pthread_mutex_lock(philo_pack->end);
 				philo_pack->is_ended = 1;
-				philo_pack->philos[i].is_dead = 1;
+				pthread_mutex_unlock(philo_pack->end);
 				ft_print(&philo_pack->philos[i], 'd');
-				// trigger stop
-				return (0);
+				return (NULL);
 			}
+			pthread_mutex_unlock(philo_pack->philos[i].started_eating);
 			if (philo_pack->philos[i].count_meals >= philo_pack->count_philo)
 				j++;
 		}
 		if (j == philo_pack->count_philo)
 		{
+			pthread_mutex_lock(philo_pack->end);
 			philo_pack->is_ended = 1;
-			// trigger stop
-			return (0);
+			pthread_mutex_unlock(philo_pack->end);			
+			return (NULL);
 		}	
 	}
-	return (1);
+	return (NULL);
 }

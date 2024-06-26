@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   review_and_parse_inputs.c                          :+:      :+:    :+:   */
+/*   init_pack.c           				                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 10:39:55 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/26 00:57:58 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:28:15 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void	ft_init_pack(int ac, char **av, t_philo_pack *philo_pack)
 	}
 	memset(&philo_pack->start_time, 0, sizeof(struct timeval));
 	philo_pack->is_ended = 0;
-	if(pthread_mutex_init(philo_pack->writing_stdout, NULL));
+	if(pthread_mutex_init(philo_pack->writing_stdout, NULL))
 		ft_error('x');
-	// if(pthread_mutex_init(philo_pack->end, NULL));
-	// 	return (ft_free(philo_pack), ft_error('x'), 0);
+	if(pthread_mutex_init(philo_pack->end, NULL))
+		ft_error('x');
 }

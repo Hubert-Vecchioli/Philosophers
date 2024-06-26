@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:58:50 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/26 12:50:46 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:07:45 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 void	ft_error(char err)
 {
 	if (err == 'i')
-		ft_putstr_fd("Error: Wrong arg number\n", 2);	
+		printf("Error: Wrong arg number\n");	
 	if (err == 'd')
-		ft_putstr_fd("Error: inputs are not valid digits\n", 2);
+		printf("Error: inputs are not valid digits\n");
 	if (err == '0')
-		ft_putstr_fd("Error: no philosopher in the input\n", 2);
+		printf("Error: no philosopher in the input\n");
 	if (err == 'm')
-		ft_putstr_fd("Error: Malloc failed\n", 2);
+		printf("Error: Malloc failed\n");
 	if (err == 'x')
-		ft_putstr_fd("Error: Mutex failed\n", 2);
+		printf("Error: Mutex failed\n");
 	if (err == 't')
-		ft_putstr_fd("Error: pThread failed\n", 2);
+		printf("Error: pThread failed\n");
 	exit(0);
 }
 void	ft_free(t_philo_pack *philo_pack)
@@ -36,6 +36,7 @@ void	ft_free(t_philo_pack *philo_pack)
 	i = 0;
 	while (i < philo_pack->count_philo)
 	{
+		pthread_join(philo_pack->philos[i].thread_ref, NULL);
 		pthread_mutex_destroy(philo_pack->writing_stdout);
 		pthread_mutex_destroy(philo_pack->philos[i].left_fork);
 		free(&philo_pack->philos[i]);
