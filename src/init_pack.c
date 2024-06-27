@@ -16,6 +16,7 @@ static int	ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
 }
+
 static int	ft_atoi(char *str)
 {
 	int		i;
@@ -60,8 +61,8 @@ void	ft_init_pack(int ac, char **av, t_philo_pack *philo_pack)
 	}
 	philo_pack->start_time = 0;
 	philo_pack->is_ended = 0;
-	if(pthread_mutex_init(&philo_pack->writing_stdout, NULL))
+	if (pthread_mutex_init(&philo_pack->writing_stdout, NULL))
 		ft_error('x');
-	if(pthread_mutex_init(&philo_pack->end, NULL))
+	if (pthread_mutex_init(&philo_pack->end, NULL))
 		ft_error('x');
 }

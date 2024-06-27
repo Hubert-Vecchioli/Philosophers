@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:58:50 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/27 12:31:54 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:37:37 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_error(char err)
 {
 	if (err == 'i')
-		printf("Error: Wrong arg number\n");	
+		printf("Error: Wrong arg number\n");
 	if (err == 'd')
 		printf("Error: inputs are not valid digits\n");
 	if (err == '0')
@@ -28,11 +28,13 @@ void	ft_error(char err)
 		printf("Error: pThread failed\n");
 	exit(0);
 }
+
 void	ft_end(void)
 {
-	printf("End of simulation\n");	
+	printf("End of simulation\n");
 	exit(0);
 }
+
 void	ft_free(t_philo_pack *philo_pack)
 {
 	int	i;
@@ -45,7 +47,7 @@ void	ft_free(t_philo_pack *philo_pack)
 		pthread_mutex_destroy(&philo_pack->writing_stdout);
 		pthread_mutex_destroy(&philo_pack->philos[i].left_fork);
 		//check si null?
-		pthread_join(philo_pack->philos[i].thread_ref, NULL);		
+		pthread_join(philo_pack->philos[i].thread_ref, NULL);
 	}
 	if (philo_pack->philos)
 		free(philo_pack->philos);
