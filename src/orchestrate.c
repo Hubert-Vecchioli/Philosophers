@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 10:40:10 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/26 19:39:18 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/27 06:54:14 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@ int	ft_eat(t_philo *philosopher)
 {
 	// if (philosopher->philo_pack->is_ended)
 	// 	return (0);
-	ft_putnbr_fd(philosopher->id,2); // TO REMOVE
-	ft_putstr_fd(" PHILO START EAT \n",2);// TO REMOVE
 	pthread_mutex_lock(&philosopher->left_fork);
 	if (!ft_print(philosopher, 'l'))
 		return (0);
-	pthread_mutex_lock(&philosopher->right_fork);
+	pthread_mutex_lock(philosopher->right_fork);
 	if (!ft_print(philosopher, 'r'))
 		return (0);
 	pthread_mutex_lock(&philosopher->started_eating);
@@ -35,7 +33,7 @@ int	ft_eat(t_philo *philosopher)
 	if(!ft_usleep(philosopher, philosopher->philo_pack->time_to_eat))
 		return (0);
 	philosopher->count_meals++;
-	pthread_mutex_unlock(&philosopher->right_fork);
+	pthread_mutex_unlock(philosopher->right_fork);
 	pthread_mutex_unlock(&philosopher->left_fork);
 	return (1);
 }
@@ -52,18 +50,21 @@ int	ft_sleep(t_philo *philosopher)
 
 int	ft_think(t_philo *philosopher)
 {
+	if (ft_compute_time_to_think(philosopher) == 0)
+		return (1);
 	if (!ft_print(philosopher, 't'))
 		return (0);
-	if (ft_usleep(philosopher, ft_compute_time_to_think(philosopher)))
+	// printf("%ld", ft_compute_time_to_think(philosopher));
+	if (!ft_usleep(philosopher, ft_compute_time_to_think(philosopher)))
 		return (0);	
 	return (1);
 }
 
-void	*ft_orchestrate(void *philosopher)
+void	*ft_orchestrate(void *philo)
 {
-	t_philo	*philo;
+	t_philo	*philosopher;
 
-	philo = (t_philo *)philosopher;
+	philosopher = (t_philo *)philo;
 	ft_delayed_start(philosopher);
 	while (1)
 	{
@@ -86,12 +87,12 @@ void	*ft_end_control(void *philo_p)
 	philo_pack = (t_philo_pack *)philo_p;
 	while (!philo_pack->is_ended)
 	{
-		i = 0;
+		i = -1;
 		j = 0;
-		while (i < philo_pack->count_philo)
+		while (++i < philo_pack->count_philo)
 		{
 			pthread_mutex_lock(&philo_pack->philos[i].started_eating);
-			if(philo_pack->time_to_die >= ft_get_time_diff(philo_pack->philos[i].start_time_last_eat))
+			if(philo_pack->time_to_die <= ft_get_time_diff(philo_pack->philos[i].start_time_last_eat))
 			{
 				pthread_mutex_unlock(&philo_pack->philos[i].started_eating);
 				pthread_mutex_lock(&philo_pack->end);
@@ -101,11 +102,12 @@ void	*ft_end_control(void *philo_p)
 				return (NULL);
 			}
 			pthread_mutex_unlock(&philo_pack->philos[i].started_eating);
-			if (philo_pack->philos[i].count_meals >= philo_pack->count_philo)
+			if (philo_pack->philos[i].count_meals >= philo_pack->max_eat_philo_must_eat && philo_pack->max_eat_philo_must_eat != -1)
 				j++;
 		}
 		if (j == philo_pack->count_philo)
 		{
+			ft_putstr_fd("I am full\n",2); // TO BE REMOVED
 			pthread_mutex_lock(&philo_pack->end);
 			philo_pack->is_ended = 1;
 			pthread_mutex_unlock(&philo_pack->end);			

@@ -47,9 +47,6 @@ static int	ft_atoi(char *str)
 
 void	ft_init_pack(int ac, char **av, t_philo_pack *philo_pack)
 {
-	int	i;
-	
-	i = 1;
 	philo_pack->count_philo = ft_atoi(av[1]);
 	if (philo_pack->count_philo == 0)
 		ft_error('0');

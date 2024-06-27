@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:41:51 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/26 19:18:55 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/27 05:48:39 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_philo
 	int 				count_meals;
 	pthread_mutex_t		started_eating;
 	pthread_mutex_t		left_fork;
-	pthread_mutex_t		right_fork;
+	pthread_mutex_t		*right_fork;
 } t_philo;
 
 void	*ft_orchestrate(void *philosopher);

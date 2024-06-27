@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 12:40:46 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/26 18:07:18 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/27 07:55:06 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ long	ft_compute_time_to_think(t_philo *philosopher)
 			if (philosopher->id == philosopher->philo_pack->count_philo - 2)
 				return (ft_compute_time_to_think_odd(philosopher->id - 1, philosopher->count_meals, philosopher));
 			else if (philosopher->id == philosopher->philo_pack->count_philo - 1)
-				return (ft_compute_time_to_think_odd(0, philosopher->count_meals + 1, philosopher));
+				return (ft_compute_time_to_think_odd(0, philosopher->count_meals + 3, philosopher));
 			else if (philosopher->id == philosopher->philo_pack->count_philo)
-				return (ft_compute_time_to_think_odd(0, philosopher->count_meals + 1, philosopher));
+				return (ft_compute_time_to_think_odd(0, philosopher->count_meals + 3, philosopher));
 			else //(philosopher->id <= philosopher->philo_pack->count_philo - 3)
 				return (ft_compute_time_to_think_odd(philosopher->id, philosopher->count_meals, philosopher));
 		}
@@ -48,10 +48,22 @@ long	ft_compute_time_to_think(t_philo *philosopher)
 
 long	ft_compute_time_to_think_odd(int id, int count_meals, t_philo *philosopher)
 {
+	printf("\n %d \n", (((id - 1) / 2 + count_meals) % (philosopher->philo_pack->count_philo / 2)));
 	if ((((id - 1) / 2 + count_meals) % (philosopher->philo_pack->count_philo / 2)) <= 1)
 		return (ft_max(philosopher->philo_pack->time_to_eat + philosopher->philo_pack->time_to_eat / 2 - philosopher->philo_pack->time_to_sleep, 0));
 	else 
 		return (ft_max(philosopher->philo_pack->time_to_eat - philosopher->philo_pack->time_to_sleep, 0));
+}
+int	ft_staggered_start(t_philo *philosopher)
+{
+	int count_philo;
+	
+	count_philo = philosopher->philo_pack->count_philo;
+	if (count_philo % 2 == 0)
+		return (1);
+	if (count_philo % 2 == 1 && count_philo > 3 && philosopher->id <= count_philo - 3)
+		return (1);
+	return (0);
 }
 
 void	ft_delayed_start(t_philo *philosopher)
@@ -60,7 +72,7 @@ void	ft_delayed_start(t_philo *philosopher)
 	
 	count_philo = philosopher->philo_pack->count_philo;
 	pthread_mutex_lock(&philosopher->philo_pack->end);
-	if (!philosopher->philo_pack->is_ended)
+	if (philosopher->philo_pack->is_ended)
 	{
 		pthread_mutex_unlock(&philosopher->philo_pack->end);
 		return ;
@@ -68,16 +80,18 @@ void	ft_delayed_start(t_philo *philosopher)
 	pthread_mutex_unlock(&philosopher->philo_pack->end);
 	if (count_philo == 1)
 		ft_think(philosopher);
-	else if ((count_philo % 2 == 0 || philosopher->id <= count_philo - 3) && philosopher->id % 2 == 1)
+	else if ((ft_staggered_start(philosopher) == 1 && philosopher->id % 2 == 1) || (count_philo == 3 && philosopher->id == 1))
 		return ;
-	else if ((count_philo % 2 == 0 || philosopher->id <= count_philo - 3) && philosopher->id % 2 == 0)
-		usleep(philosopher->philo_pack->time_to_eat);
-	else if (count_philo % 2 == 1 && philosopher->id == count_philo - 2)
-		usleep(philosopher->philo_pack->time_to_eat * 2);
-	else if (count_philo % 2 == 1 && philosopher->id == count_philo - 1)
-		usleep(philosopher->philo_pack->time_to_eat / 2);
-	else if (count_philo % 2 == 1 && philosopher->id == count_philo)
-		usleep(philosopher->philo_pack->time_to_eat + philosopher->philo_pack->time_to_eat / 2);
+	else if ((ft_staggered_start(philosopher) == 1 && philosopher->id % 2 == 0) || (count_philo == 3 && philosopher->id == 2))
+		ft_usleep(philosopher, philosopher->philo_pack->time_to_eat);
+	else if ((count_philo == 3 && philosopher->id == 3))
+		ft_usleep(philosopher, philosopher->philo_pack->time_to_eat * 2);
+	else if (count_philo > 3 && count_philo % 2 == 1 && philosopher->id == count_philo - 2)
+		ft_usleep(philosopher, philosopher->philo_pack->time_to_eat * 2);
+	else if (count_philo > 3 && count_philo % 2 == 1 && philosopher->id == count_philo - 1)
+		ft_usleep(philosopher, philosopher->philo_pack->time_to_eat / 2);
+	else if (count_philo > 3 && count_philo % 2 == 1 && philosopher->id == count_philo)
+		ft_usleep(philosopher, philosopher->philo_pack->time_to_eat + philosopher->philo_pack->time_to_eat / 2);
 	else
-		return ; // probleme normalement
+		return ;
 }
