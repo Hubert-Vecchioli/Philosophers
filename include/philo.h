@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:41:51 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/27 12:36:33 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:19:13 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_philo
 	t_philo_pack		*philo_pack;
 	int					id;
 	long				start_time_last_eat;
+	int					is_dead;
 	int					count_meals;
 	pthread_mutex_t		started_eating;
 	pthread_mutex_t		left_fork;

@@ -13,10 +13,10 @@ NAME 			= philo
 all : ${NAME}
 
 .c.o:
-	cc -Wall -Wextra -Werror -I ./include/ -c $< -o ${<:.c=.o}
+	cc -Wall -Wextra -Werror -pthread -fsanitize=thread -g3 -I ./include/ -c $< -o ${<:.c=.o}
 
 ${NAME} : $(OBJS)
-	cc -Wall -Wextra -Werror $(OBJS) -o ${NAME}
+	cc -Wall -Wextra -Werror -pthread -fsanitize=thread -g3 $(OBJS) -o ${NAME}
 
 #$(NAME_CHECKER) : $(OBJS) $(CHECKER_OBJS)
 #	cc -Wall -Wextra -Werror $(OBJS) $(CHECKER_OBJS) -o $(NAME_CHECKER)

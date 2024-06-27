@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:31:06 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/27 06:29:13 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:01:15 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	ft_usleep(t_philo *philosopher, long target_time_in_ms)
 
 	current_time = 0;
 	current_time = ft_get_time();
+	if (target_time_in_ms == 0)
+		return (1);
 	while ((ft_get_time() - current_time) < target_time_in_ms)	
 	{
 		pthread_mutex_lock(&philosopher->philo_pack->end);
