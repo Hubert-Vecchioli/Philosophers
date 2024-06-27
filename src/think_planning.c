@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 12:40:46 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/27 12:07:11 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:12:56 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ long	ft_compute_time_to_think(t_philo *philosopher)
 				return (ft_compute_time_to_think_odd(1, philosopher->count_meals + 1, philosopher));
 			else if (philosopher->id == philosopher->philo_pack->count_philo)
 				return (ft_compute_time_to_think_odd(1, philosopher->count_meals + 1, philosopher));
-			else //(philosopher->id <= philosopher->philo_pack->count_philo - 3)
+			else 
 				return (ft_compute_time_to_think_odd(philosopher->id, philosopher->count_meals, philosopher));
 		}
 	}
@@ -48,9 +48,6 @@ long	ft_compute_time_to_think(t_philo *philosopher)
 
 long	ft_compute_time_to_think_odd(int id, int count_meals, t_philo *philosopher)
 {
-	// printf("Philo %d: %d \n",philosopher->id, (((id - 1) / 2 + count_meals - 1 * ((philosopher->id -1) < 2 )) % (philosopher->philo_pack->count_philo / 2)));
-	// printf("Philo %d: %d \n",philosopher->id, (((id - 1) / 2 + count_meals - 1 * ((philosopher->id -1) < 2 ))));
-	// printf("Philo %d: %d \n",philosopher->id, ((philosopher->philo_pack->count_philo / 2)));
 	if (((philosopher->philo_pack->count_philo / 2 -(id - 1) / 2 + count_meals - 1) % (philosopher->philo_pack->count_philo / 2)) <= 1)
 		return (ft_max(philosopher->philo_pack->time_to_eat + philosopher->philo_pack->time_to_eat / 2 - philosopher->philo_pack->time_to_sleep, 0));
 	else 
