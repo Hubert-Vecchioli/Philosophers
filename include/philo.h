@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:41:51 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/27 05:48:39 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:31:39 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ long	ft_compute_time_to_think(t_philo *philosopher);
 long	ft_compute_time_to_think_odd(int id, int count_meals, t_philo *philosopher);
 long	ft_get_time_diff(long start);
 long	ft_get_time(void);
+void	ft_end(void);
 
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);

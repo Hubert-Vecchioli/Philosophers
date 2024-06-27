@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 10:40:10 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/27 06:54:14 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:32:42 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	ft_think(t_philo *philosopher)
 		return (1);
 	if (!ft_print(philosopher, 't'))
 		return (0);
-	// printf("%ld", ft_compute_time_to_think(philosopher));
 	if (!ft_usleep(philosopher, ft_compute_time_to_think(philosopher)))
 		return (0);	
 	return (1);
@@ -107,7 +106,6 @@ void	*ft_end_control(void *philo_p)
 		}
 		if (j == philo_pack->count_philo)
 		{
-			ft_putstr_fd("I am full\n",2); // TO BE REMOVED
 			pthread_mutex_lock(&philo_pack->end);
 			philo_pack->is_ended = 1;
 			pthread_mutex_unlock(&philo_pack->end);			
