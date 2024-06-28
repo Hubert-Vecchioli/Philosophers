@@ -69,9 +69,6 @@ void	ft_init_pack(int ac, char **av, t_philo_pack *philo_pack)
 	philo_pack->is_ended = 0;
 	if (pthread_mutex_init(&philo_pack->writing_stdout, NULL))
 		ft_error('x');
-	printf("Pack:writing_stdout :%p\n",&philo_pack->writing_stdout);
 	if (pthread_mutex_init(&philo_pack->end, NULL))
 		ft_error('x');
-	printf("Pack:end :%p\n",&philo_pack->end);
-
 }

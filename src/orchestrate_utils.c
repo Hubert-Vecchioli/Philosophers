@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 03:54:58 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/28 11:36:46 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:10:15 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,26 @@ void	ft_update_end(t_philo_pack *philo_pack, int i)
 	pthread_mutex_unlock(&philo_pack->end);
 }
 
-int	ft_count_eaten_target_reached(t_philo philosopher)
+int	ft_is_target_eat_reached(t_philo_pack *philo_pack)
 {
-	int	res;
+	int		i;
+	int		count_philo_at_target;
 
-	pthread_mutex_lock(&philosopher.finished_eating);
-	res = (philosopher.count_meals
-			>= (philosopher.philo_pack->max_eat_philo_must_eat)
-			&& philosopher.philo_pack->max_eat_philo_must_eat != -1);
-	pthread_mutex_unlock(&philosopher.finished_eating);
-	return (res);
+	if (philo_pack->max_eat_philo_must_eat == -1)
+		return (0);
+	count_philo_at_target = 0;
+	i = -1;
+	while (++i < philo_pack->count_philo)
+	{
+		pthread_mutex_lock(&philo_pack->philos[i].finished_eating);
+		if (philo_pack->philos[i].count_meals
+			>= philo_pack->max_eat_philo_must_eat)
+			count_philo_at_target++;
+		pthread_mutex_unlock(&philo_pack->philos[i].finished_eating);
+	}
+	if (count_philo_at_target == philo_pack->count_philo)
+		return (1);
+	return (0);
 }
 
 void	ft_solo_philo_life(t_philo *philosopher)

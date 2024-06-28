@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:31:06 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/28 10:51:27 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:49:36 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_usleep(t_philo *philosopher, long target_time_in_ms)
 		if (philosopher->philo_pack->is_ended)
 			return (pthread_mutex_unlock(&philosopher->philo_pack->end), 0);
 		pthread_mutex_unlock(&philosopher->philo_pack->end);
-		usleep(100);
+		usleep(1000);
 	}
 	return (1);
 }

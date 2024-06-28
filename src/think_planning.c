@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 12:40:46 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/28 04:03:41 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:08:09 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,7 @@ void	ft_delayed_start(t_philo *philosopher)
 	int	count_philo;
 
 	count_philo = philosopher->philo_pack->count_philo;
-	if (count_philo == 1)
-		ft_think(philosopher);
-	else if ((ft_staggered_start(philosopher) == 1 && philosopher->id % 2 == 1)
+	if ((ft_staggered_start(philosopher) == 1 && philosopher->id % 2 == 1)
 		|| (count_philo == 3 && philosopher->id == 1))
 		return ;
 	else if ((ft_staggered_start(philosopher) == 1 && philosopher->id % 2 == 0)

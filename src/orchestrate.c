@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 10:40:10 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/28 11:46:07 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:55:01 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,10 @@
 
 int	ft_eat(t_philo *philosopher)
 {
-	pthread_mutex_lock(&philosopher->left_fork);
-	ft_print(philosopher, 'l');
-	pthread_mutex_lock(philosopher->right_fork);
-	ft_print(philosopher, 'r');
-	ft_print(philosopher, 'e');
-	pthread_mutex_lock(&philosopher->started_eating);
-	pthread_mutex_lock(&philosopher->philo_pack->end);
-	if (!philosopher->philo_pack->is_ended)
-		philosopher->start_time_last_eat = ft_get_time();
-	pthread_mutex_unlock(&philosopher->philo_pack->end);
-	pthread_mutex_unlock(&philosopher->started_eating);
-	if (!ft_usleep(philosopher, philosopher->philo_pack->time_to_eat))
-		return (pthread_mutex_unlock(&philosopher->left_fork),
-			pthread_mutex_unlock(philosopher->right_fork), 0);
-	pthread_mutex_lock(&philosopher->finished_eating);
-	philosopher->count_meals++;
-	pthread_mutex_unlock(&philosopher->finished_eating);
-	pthread_mutex_unlock(philosopher->right_fork);
-	pthread_mutex_unlock(&philosopher->left_fork);
-	return (1);
+	if (philosopher->id % 2 == 0)
+		return (ft_eat_even(philosopher));
+	else
+		return (ft_eat_odd(philosopher));
 }
 
 int	ft_sleep(t_philo *philosopher)
@@ -94,11 +78,8 @@ void	*ft_end_control(void *philo_p)
 				return (ft_print(&philo_pack->philos[i], 'd'), NULL);
 			}
 			pthread_mutex_unlock(&philo_pack->philos[i].started_eating);
-			if (ft_count_eaten_target_reached(philo_pack->philos[i]))
-				++j;
 		}
-		usleep(100);
-		if (j >= philo_pack->count_philo)
+		if (ft_is_target_eat_reached(philo_pack))
 			return (ft_update_end(philo_pack, -1), NULL);
 	}
 	return (NULL);

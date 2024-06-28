@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:41:51 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/28 11:10:54 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:56:38 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ long	ft_max(long a, long b);
 void	ft_end(void);
 void	ft_update_end(t_philo_pack *philo_pack, int i);
 void	ft_solo_philo_life(t_philo *philosopher);
-int		ft_count_eaten_target_reached(t_philo philosopher);
+int		ft_is_target_eat_reached(t_philo_pack *philo_pack);
+int		ft_eat_even(t_philo *philosopher);
+int		ft_eat_odd(t_philo *philosopher);
 
 #endif
