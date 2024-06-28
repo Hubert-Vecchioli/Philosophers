@@ -1,4 +1,4 @@
-SRC 			= main.c utils.c usleep.c think_planning.c orchestrate.c output.c init_philo.c init_pack.c end.c
+SRC 			= main.c usleep.c think_planning.c orchestrate.c orchestrate_utils.c output.c init_philo.c init_pack.c end.c
 SRCS_DIR 		= ./src/
 SRCS 			= $(addprefix $(SRCS_DIR), $(SRC))
 OBJS			= ${SRCS:.c=.o}

@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:41:51 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/27 17:19:13 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/28 04:02:50 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,16 @@ int		ft_sleep(t_philo *philosopher);
 int		ft_think(t_philo *philosopher);
 int		ft_print(t_philo *philosopher, char message);
 int		ft_usleep(t_philo *philosopher, long target_time_length);
+int		ft_has_philo_died(t_philo_pack	*philo_pack, int i);
 long	ft_compute_time_to_think(t_philo *philosopher);
 long	ft_compute_time_to_think_odd(int id, int count_meals,
 			t_philo *philosopher);
 long	ft_get_time_diff(long start);
 long	ft_get_time(void);
+long	ft_time_to_think_odd_above_3(t_philo *philosopher);
+long	ft_max(long a, long b);
 void	ft_end(void);
-void	ft_putnbr_fd(int n, int fd);
-void	ft_putstr_fd(char *s, int fd);
+void	ft_update_end(t_philo_pack *philo_pack, int i);
+int		ft_count_eaten_target_reached(t_philo philosopher);
 
 #endif
