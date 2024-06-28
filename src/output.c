@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 12:30:25 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/28 02:50:41 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/28 04:05:04 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static void	ft_print_util(t_philo *philosopher, char message)
 	if (message == 'l')
 		printf("%ld %d %s\n", ft_get_time_diff
 			(philosopher->philo_pack->start_time),
-			philosopher->id, "has taken a l fork");
+			philosopher->id, "has taken a fork");
 	else if (message == 'r')
 		printf("%ld %d %s\n", ft_get_time_diff
 			(philosopher->philo_pack->start_time),
-			philosopher->id, "has taken a r fork");
+			philosopher->id, "has taken a fork");
 	else if (message == 'e')
 		printf("%ld %d %s\n", ft_get_time_diff
 			(philosopher->philo_pack->start_time),
