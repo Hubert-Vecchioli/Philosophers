@@ -52,17 +52,26 @@ void	ft_init_pack(int ac, char **av, t_philo_pack *philo_pack)
 	if (philo_pack->count_philo == 0)
 		ft_error('0');
 	philo_pack->time_to_die = ft_atoi(av[2]);
+	if (philo_pack->time_to_die == 0)
+		ft_error('n');
 	philo_pack->time_to_eat = ft_atoi(av[3]);
+	if (philo_pack->time_to_eat == 0)
+		philo_pack->time_to_eat = 1;
 	philo_pack->time_to_sleep = ft_atoi(av[4]);
 	philo_pack->max_eat_philo_must_eat = -1;
 	if (ac == 6)
 	{
 		philo_pack->max_eat_philo_must_eat = ft_atoi(av[5]);
+		if (philo_pack->max_eat_philo_must_eat == 0)
+			ft_error('w');
 	}
 	philo_pack->start_time = 0;
 	philo_pack->is_ended = 0;
 	if (pthread_mutex_init(&philo_pack->writing_stdout, NULL))
 		ft_error('x');
+	printf("Pack:writing_stdout :%p\n",&philo_pack->writing_stdout);
 	if (pthread_mutex_init(&philo_pack->end, NULL))
 		ft_error('x');
+	printf("Pack:end :%p\n",&philo_pack->end);
+
 }

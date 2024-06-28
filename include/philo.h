@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:41:51 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/28 04:02:50 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:10:54 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_philo
 	long				start_time_last_eat;
 	int					is_dead;
 	int					count_meals;
+	pthread_mutex_t		finished_eating;
 	pthread_mutex_t		started_eating;
 	pthread_mutex_t		left_fork;
 	pthread_mutex_t		*right_fork;
@@ -73,6 +74,7 @@ long	ft_time_to_think_odd_above_3(t_philo *philosopher);
 long	ft_max(long a, long b);
 void	ft_end(void);
 void	ft_update_end(t_philo_pack *philo_pack, int i);
+void	ft_solo_philo_life(t_philo *philosopher);
 int		ft_count_eaten_target_reached(t_philo philosopher);
 
 #endif

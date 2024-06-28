@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 03:54:58 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/28 04:02:36 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:36:46 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,19 @@ void	ft_update_end(t_philo_pack *philo_pack, int i)
 
 int	ft_count_eaten_target_reached(t_philo philosopher)
 {
-	return (philosopher.count_meals
-		>= philosopher.philo_pack->max_eat_philo_must_eat
-		&& philosopher.philo_pack->max_eat_philo_must_eat != -1);
+	int	res;
+
+	pthread_mutex_lock(&philosopher.finished_eating);
+	res = (philosopher.count_meals
+			>= (philosopher.philo_pack->max_eat_philo_must_eat)
+			&& philosopher.philo_pack->max_eat_philo_must_eat != -1);
+	pthread_mutex_unlock(&philosopher.finished_eating);
+	return (res);
+}
+
+void	ft_solo_philo_life(t_philo *philosopher)
+{
+	ft_print(philosopher, 't');
+	ft_usleep(philosopher, philosopher->philo_pack->time_to_die);
+	ft_print(philosopher, 'd');
 }
