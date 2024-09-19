@@ -6,7 +6,7 @@
 /*   By: hvecchio <hvecchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 10:40:10 by hvecchio          #+#    #+#             */
-/*   Updated: 2024/06/28 17:55:01 by hvecchio         ###   ########.fr       */
+/*   Updated: 2024/09/20 00:01:07 by hvecchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,12 @@ void	*ft_orchestrate(void *philo)
 void	*ft_end_control(void *philo_p)
 {
 	int				i;
-	int				j;
 	t_philo_pack	*philo_pack;
 
 	philo_pack = (t_philo_pack *)philo_p;
 	while (!philo_pack->is_ended)
 	{
 		i = -1;
-		j = 0;
 		while (++i < philo_pack->count_philo)
 		{
 			pthread_mutex_lock(&philo_pack->philos[i].started_eating);
